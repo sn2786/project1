@@ -154,7 +154,7 @@ def add_new_user():
 
     if flag:
       flash("user_id already exists")
-      return redirect('/user/new/add')
+      return redirect('/')
 
     cmd = 'INSERT INTO users(user_id, password) VALUES (:ID, :password) '
     g.conn.execute(text(cmd), ID = ID, password = password)
@@ -620,6 +620,12 @@ def wishlist_add():
       if int(record[0]) == int(ID):
         flag = 1
         break;
+    if not flag:
+      cursor = g.conn.execute("SELECT pic_id FROM tv_series")
+      for record in cursor:
+        if int(record[0]) == int(ID):
+          flag = 1
+          break;
     if not flag:
       flash("pic id does not exist")
       return redirect('/wishlist')
